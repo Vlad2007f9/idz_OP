@@ -43,16 +43,16 @@
             cutToolStripMenuItem = new ToolStripMenuItem();
             undoToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
-            buttonClear = new Button();
-            filename = new TextBox();
-            labelnews = new Label();
-            textBoxtext = new TextBox();
             statisticsToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             newsFromTheSiteToolStripMenuItem = new ToolStripMenuItem();
             singletonToolStripMenuItem = new ToolStripMenuItem();
             lazySingletonToolStripMenuItem = new ToolStripMenuItem();
             limitSingletonToolStripMenuItem = new ToolStripMenuItem();
+            buttonClear = new Button();
+            filename = new TextBox();
+            labelnews = new Label();
+            textBoxtext = new TextBox();
             labelText = new Label();
             labelStat = new Label();
             menuStrip1.SuspendLayout();
@@ -66,7 +66,7 @@
             source.ScrollBars = ScrollBars.Vertical;
             source.Size = new Size(363, 334);
             source.TabIndex = 0;
-            source.KeyPress += source_KeyPress;
+            source.KeyDown += source_KeyDown;
             // 
             // StaticsticsBox
             // 
@@ -102,28 +102,28 @@
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.Size = new Size(224, 26);
+            newToolStripMenuItem.Size = new Size(128, 26);
             newToolStripMenuItem.Text = "New";
             newToolStripMenuItem.Click += newToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(224, 26);
+            openToolStripMenuItem.Size = new Size(128, 26);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(224, 26);
+            saveToolStripMenuItem.Size = new Size(128, 26);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(224, 26);
+            exitToolStripMenuItem.Size = new Size(128, 26);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -168,39 +168,6 @@
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             toolStripMenuItem1.Size = new Size(14, 24);
             // 
-            // buttonClear
-            // 
-            buttonClear.Location = new Point(0, 411);
-            buttonClear.Name = "buttonClear";
-            buttonClear.Size = new Size(94, 29);
-            buttonClear.TabIndex = 3;
-            buttonClear.Text = "Clear Text";
-            buttonClear.UseVisualStyleBackColor = true;
-            buttonClear.Click += buttonClear_Click;
-            // 
-            // filename
-            // 
-            filename.Location = new Point(100, 413);
-            filename.Name = "filename";
-            filename.Size = new Size(73, 27);
-            filename.TabIndex = 4;
-            // 
-            // labelnews
-            // 
-            labelnews.AutoSize = true;
-            labelnews.Location = new Point(196, 415);
-            labelnews.Name = "labelnews";
-            labelnews.Size = new Size(121, 20);
-            labelnews.TabIndex = 5;
-            labelnews.Text = "Number of news:";
-            // 
-            // textBoxtext
-            // 
-            textBoxtext.Location = new Point(323, 412);
-            textBoxtext.Name = "textBoxtext";
-            textBoxtext.Size = new Size(67, 27);
-            textBoxtext.TabIndex = 6;
-            // 
             // statisticsToolStripMenuItem
             // 
             statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
@@ -243,6 +210,39 @@
             limitSingletonToolStripMenuItem.Size = new Size(192, 26);
             limitSingletonToolStripMenuItem.Text = "Limit Singleton";
             limitSingletonToolStripMenuItem.Click += limitSingletonToolStripMenuItem_Click;
+            // 
+            // buttonClear
+            // 
+            buttonClear.Location = new Point(0, 411);
+            buttonClear.Name = "buttonClear";
+            buttonClear.Size = new Size(94, 29);
+            buttonClear.TabIndex = 3;
+            buttonClear.Text = "Clear Text";
+            buttonClear.UseVisualStyleBackColor = true;
+            buttonClear.Click += buttonClear_Click;
+            // 
+            // filename
+            // 
+            filename.Location = new Point(100, 413);
+            filename.Name = "filename";
+            filename.Size = new Size(73, 27);
+            filename.TabIndex = 4;
+            // 
+            // labelnews
+            // 
+            labelnews.AutoSize = true;
+            labelnews.Location = new Point(196, 415);
+            labelnews.Name = "labelnews";
+            labelnews.Size = new Size(121, 20);
+            labelnews.TabIndex = 5;
+            labelnews.Text = "Number of news:";
+            // 
+            // textBoxtext
+            // 
+            textBoxtext.Location = new Point(323, 412);
+            textBoxtext.Name = "textBoxtext";
+            textBoxtext.Size = new Size(67, 27);
+            textBoxtext.TabIndex = 6;
             // 
             // labelText
             // 
