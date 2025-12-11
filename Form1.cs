@@ -410,9 +410,7 @@ namespace idz_OP
                     removed = txt.Substring(start, length);
                 }
 
-                
                 var msgs = Document.Instance.DeleteRange(start, length);
-
                
                 source.Text = Document.Instance.Text;
                 source.SelectionStart = start;

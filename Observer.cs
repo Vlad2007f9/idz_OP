@@ -13,7 +13,6 @@ namespace idz_OP
     }
     public enum DocEventType
     {
-        Insert,
         Delete,
         ParagraphAdded,
         AutoSave
@@ -59,11 +58,7 @@ namespace idz_OP
             }
             return result;
         }
-        public List<string> InsertText(string text)
-        {
-            Text += text;
-            return Notify(new DocumentEvent { Etype = DocEventType.Insert, Text = text });
-        }
+       
 
         public List<string> InsertParagraph()
         {
