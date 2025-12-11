@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -9,9 +10,11 @@ namespace idz_OP
 {
     public partial class Form1 : Form
     {
+        private string currentFile = "";
         public Form1()
         {
             InitializeComponent();
+            
         }
 
         private void openFileDialog_FileOK(object sender, CancelEventArgs e)
@@ -27,20 +30,28 @@ namespace idz_OP
         private void LoadFile(string Path)
         {
             source.Clear();
-            string fullText = "";
-            StreamReader reader = new StreamReader(Path, Encoding.UTF8);
 
-            string? Fileline = reader.ReadLine();
+            currentFile = Path;
 
-            while (Fileline != null)
-            {
-                source.AppendText(Fileline + Environment.NewLine);
-                fullText += Fileline + Environment.NewLine;
-                Fileline = reader.ReadLine();
-            }
-            reader.Close();
-
+            var provider = FileFactoryProvider.GetInstancee;
+            var factory = provider.GetFactoryByExtension(Path);
+            var loader = factory.CreateLoader();
+            string text = loader.Load(Path);
+            Document.Instance.Text = text;
+            source.Text = text;
+            Document.Instance.AddObs(new WordDeleteObserver());
+            Document.Instance.AddObs(new AutoSaveObserver(Path));
+            Document.Instance.AddObs(new ParagraphObserver());
         }
+
+        private void SaveFile(string path)
+        {
+            var provider = FileFactoryProvider.GetInstancee;
+            var factory = provider.GetFactoryByExtension(currentFile);
+            var saver = factory.CreateSaver();
+            saver.Save(path, Document.Instance.Text);
+        }
+
         private void Staticstics(string text, string Path)
         {
 
@@ -315,22 +326,7 @@ namespace idz_OP
             }
 
         }
-        private void source_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            int pos = source.SelectionStart;
-
-            int line = source.GetLineFromCharIndex(pos);
-            int column = pos - source.GetFirstCharIndexFromLine(line);
-
-            if (e.KeyChar == (char)Keys.Back)
-            {
-                Logger.Instance.LogEvent("Delete", line, column, ' ');
-            }
-            else
-            {
-                Logger.Instance.LogEvent("Insert", line, column, e.KeyChar);
-            }
-        }
+       
         private void singltonToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -353,14 +349,76 @@ namespace idz_OP
                 + $"s3 ={s3.GetHashCode()}\r\n" + $"s4 = {s4.GetHashCode()}\r\n");
         }
 
+        private void ShowObs(List<string> mes)
+        {
+            foreach (var m in mes)
+                StaticsticsBox.AppendText(m + "\n");
+        }
 
+        private void source_KeyDown(object sender, KeyEventArgs e)
+        {
+            int pos = source.SelectionStart;
 
+            if (e.KeyCode == Keys.Enter)
+            {
+                var msgs = Document.Instance.InsertParagraph();
+                source.Text = Document.Instance.Text;
+                source.SelectionStart = pos + 2;
+                ShowObs(msgs);
+                e.Handled = true;
+                return;
+            }
+            if(e.KeyCode == Keys.Back)
+{
+                e.SuppressKeyPress = true; 
 
+                string txt = source.Text;
+                int selStart = source.SelectionStart;
+                int selLength = source.SelectionLength;
 
+                if (selLength == 0 && selStart == 0)
+                    return;
 
+                int start = selStart;
+                int length = selLength;
 
+                string removed;
 
+                if (selLength > 0)
+                {
+                    
+                    removed = txt.Substring(selStart, selLength);
+                }
+                else
+                {
+                   
+                    int pose = selStart - 1;
 
+                   
+                    while (pose >= 0 && char.IsWhiteSpace(txt[pose]))
+                        pose--;
 
+                    if (pose < 0)
+                        return;
+
+                    int wordEnd = pose;
+                    while (pose > 0 && !char.IsWhiteSpace(txt[pose - 1]))
+                        pose --;
+
+                    start = pose;
+                    length = selStart - start;
+                    removed = txt.Substring(start, length);
+                }
+
+                
+                var msgs = Document.Instance.DeleteRange(start, length);
+
+               
+                source.Text = Document.Instance.Text;
+                source.SelectionStart = start;
+
+                ShowObs(msgs);
+            }
+        }
     }
 }
