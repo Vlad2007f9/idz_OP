@@ -28,11 +28,7 @@ namespace idz_OP
     {
         public string Load(string path)
         {
-            string html = File.ReadAllText(path);
-            string parag = Regex.Replace(html, @"<\s*(p|br)[^>]*>", "\r\n\r\n", RegexOptions.IgnoreCase);
-            string text = Regex.Replace(parag, @"<[^>]+>", "");
-
-            return WebUtility.HtmlDecode(text).Trim();
+            return File.ReadAllText(path, Encoding.UTF8);
         }
     }
     public class TxtLoader : ILoader
@@ -55,7 +51,7 @@ namespace idz_OP
     {
         public void Save(string path, string text)
         {
-            string[] paragr = Regex.Split(text.Trim(), @"(\r?\n){2,}");
+            string[] paragr = Regex.Split(text, @"(\r?\n){2,}");
             StringBuilder sb = new StringBuilder();
             foreach (var p in paragr)
             {

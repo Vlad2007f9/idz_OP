@@ -248,7 +248,7 @@ namespace idz_OP
             saveFileDialog.Filter = "Text Files|*.txt|All Files|*.*";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                File.WriteAllText(saveFileDialog.FileName, source.Text, Encoding.UTF8);
+                SaveFile(saveFileDialog.FileName);
                 filename.Text = saveFileDialog.FileName;
             }
         }
