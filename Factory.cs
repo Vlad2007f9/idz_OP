@@ -28,7 +28,18 @@ namespace idz_OP
     {
         public string Load(string path)
         {
-            return File.ReadAllText(path, Encoding.UTF8);
+            string html = File.ReadAllText(path);
+
+            string parag = Regex.Replace(html, @"<\s*(p|br)\b[^>]*>", "\n", RegexOptions.IgnoreCase);
+
+            string removehtml = Regex.Replace(parag, @"<[^>]+>", "");
+
+            string decoded = WebUtility.HtmlDecode(removehtml);
+
+            decoded = Regex.Replace(decoded, @"^[ \t]+", "", RegexOptions.Multiline);
+
+            return decoded.Trim();
+
         }
     }
     public class TxtLoader : ILoader

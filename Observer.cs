@@ -84,6 +84,11 @@ namespace idz_OP
 
             return Notify(ev);
         }
+        public void ClearObservers()
+        {
+            observers.Clear();
+        }
+
     }
     public class WordDeleteObserver : IObserver
     {

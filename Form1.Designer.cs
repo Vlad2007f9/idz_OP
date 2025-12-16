@@ -66,6 +66,7 @@
             source.ScrollBars = ScrollBars.Vertical;
             source.Size = new Size(363, 334);
             source.TabIndex = 0;
+            source.TextChanged += source_TextChanged;
             source.KeyDown += source_KeyDown;
             // 
             // StaticsticsBox

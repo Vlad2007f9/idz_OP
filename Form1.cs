@@ -14,7 +14,6 @@ namespace idz_OP
         public Form1()
         {
             InitializeComponent();
-            
         }
 
         private void openFileDialog_FileOK(object sender, CancelEventArgs e)
@@ -27,25 +26,37 @@ namespace idz_OP
             LoadFile(fullPathname);
         }
 
+        private void SetupObservers(string path)
+        {
+            Document.Instance.ClearObservers();
+            Document.Instance.AddObs(new WordDeleteObserver());
+            Document.Instance.AddObs(new ParagraphObserver());
+            Document.Instance.AddObs(new AutoSaveObserver(path));
+        }
+
         private void LoadFile(string Path)
         {
             source.Clear();
 
             currentFile = Path;
 
+
             var provider = FileFactoryProvider.GetInstancee;
             var factory = provider.GetFactoryByExtension(Path);
             var loader = factory.CreateLoader();
             string text = loader.Load(Path);
+
             Document.Instance.Text = text;
             source.Text = text;
-            Document.Instance.AddObs(new WordDeleteObserver());
-            Document.Instance.AddObs(new AutoSaveObserver(Path));
-            Document.Instance.AddObs(new ParagraphObserver());
+
+            SetupObservers(Path);
+
         }
 
         private void SaveFile(string path)
         {
+            Document.Instance.Text = source.Text;
+
             var provider = FileFactoryProvider.GetInstancee;
             var factory = provider.GetFactoryByExtension(currentFile);
             var saver = factory.CreateSaver();
@@ -353,6 +364,11 @@ namespace idz_OP
         {
             foreach (var m in mes)
                 StaticsticsBox.AppendText(m + "\n");
+        }
+
+        private void source_TextChanged(object sender, EventArgs e)
+        {
+            Document.Instance.Text = source.Text;
         }
 
         private void source_KeyDown(object sender, KeyEventArgs e)
