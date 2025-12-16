@@ -98,7 +98,7 @@ namespace idz_OP
                 return null;
 
             if (ev.RemoveWords > 1)
-                return $"\nDeleted {ev.RemoveWords} words\r\n";
+                return $"\nDeleted {ev.RemoveWords} words\n";
 
             return null;
         }
@@ -123,7 +123,7 @@ namespace idz_OP
 
             saver.Save(path, Document.Instance.Text);
 
-            return "AutoSave File\n";
+            return "AutoSave File\r\n";
         }
     }
     public class ParagraphObserver : IObserver
@@ -131,7 +131,7 @@ namespace idz_OP
         public string Update(DocumentEvent doce)
         {
             if (doce.Etype == DocEventType.ParagraphAdded)
-                return "\r\nAdder new paragraph\r\n";
+                return " \r\nAdder new paragraphas\r\n";
 
             return "";
         }
